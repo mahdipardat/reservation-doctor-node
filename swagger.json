@@ -1,0 +1,17 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Doctros web application",
+		"description": "Api for doctors applications by Mahdi Pardat",
+		"version": "0.1.1"
+	},
+
+    "host" : "http://localhost:3000",
+    "basePath" : "/v1",
+    "schemes" : ["http"],
+
+
+    "paths" : {
+        
+    }
+}
