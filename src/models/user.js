@@ -54,6 +54,8 @@ const userSchema = new Schema(
 			default: "customer",
 		},
 
+		forgetToken : String,
+
 		tokens: [
 			{
 				token: {

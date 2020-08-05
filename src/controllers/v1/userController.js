@@ -1,5 +1,6 @@
 const User = require('../../models/user');
 const gravatar = require('gravatar');
+const sendForgetEmail = require('../../services/sendForgetMail');
 
 exports.getUsers = async(req , res , next) => {
 
@@ -112,6 +113,28 @@ exports.deleteUser = async(req , res , next) => {
         await req.user.remove();
 
         res.status(205).send(req.user)
+
+    } catch (e) {
+        res.status(500).send();
+    }
+
+}
+
+exports.forget = async (req , res , next) => {
+
+    const mobile = req.body.mobile;
+
+    try {
+        
+        const user = await User.findOne({ mobile });
+
+        if(!user) {
+            res.status(404).send();
+        }
+
+        const info = await sendForgetEmail(user);
+        console.log(info);
+        res.send({ msg : 'token sent!'});
 
     } catch (e) {
         res.status(500).send();
