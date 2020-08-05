@@ -4,7 +4,17 @@ const app = express();
 require('./db/mongoose');
 require('./bootstraps')(app);
 
+// const bcrypt = require('bcrypt');
 
+// const testHash = async function() {
+//     const data = 'red1377';
+//     const hash = await bcrypt.hash(data , 8)
+//     console.log(hash);
+//     const isMatch = await bcrypt.compare('fake data', hash);
+//     console.log(isMatch);
+// }
+
+// testHash()
 
 
 

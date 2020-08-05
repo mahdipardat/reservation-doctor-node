@@ -41,8 +41,6 @@ const userSchema = new Schema(
 		password: {
 			type: String,
 			required: true,
-			trim: true,
-			lowercase: true,
 		},
 
 		isBlock: {
@@ -69,9 +67,9 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-	if (this.isModified("password") || this.isNew) {
-
-		this.password = await bcrypt.hash(this.password, 10);
+	const user = this;
+	if (user.isModified("password")) {
+		user.password = await bcrypt.hash(user.password, bcrypt.genSaltSync(12));
 	}
 	
 	next();
@@ -86,13 +84,13 @@ userSchema.statics.findByCredential = async (
     if(!user) {
         throw new Error('Unable to login');
     }
-
-    const isMatch = await bcrypt.compare(password , user.password);
-
+	
+    const isMatch = bcrypt.compareSync(password , user.password)
+	
     if(!isMatch) {
         throw new Error('Unable to login');
     }
-
+	
     return user;
 };
 

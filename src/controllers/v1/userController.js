@@ -49,10 +49,9 @@ exports.login = async(req , res , next) => {
         
         const user = await User.findByCredential(req.body.password , req.body.mobile);
         const token = await user.generateAuthToken();
-        // if(!user) {
-        //     res.status(404).send('user not found');
-        // }
-
+        if(!user) {
+            res.status(404).send('user not found');
+        }
         res.status(200).send({ user , token })
 
     } catch (e) {
