@@ -6,12 +6,313 @@
 		"version": "0.1.1"
 	},
 
-    "host" : "http://localhost:3000",
-    "basePath" : "/v1",
-    "schemes" : ["http"],
+	"host": "localhost:3000",
+	"basePath": "/v1",
+	"schemes": ["http"],
 
+	"paths": {
+		"/users": {
+			"get": {
+				"summary": "list of all users",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page"
+					},
+					{
+						"in": "query",
+						"name": "search"
+					}
+				],
+				"responses": {
+					"200": {
+						"decription": "ok"
+					},
+					"404": {
+						"description": "users not found"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			},
+			"post": {
+				"summary": "store or sign up new user",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "user_info",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/user"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "created!"
+					},
+					"400": {
+						"description": "can't create user"
+					}
+				}
+			}
+		},
+		"/users/login": {
+			"post": {
+				"summary": "logged in user",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "login form",
+						"schema": {
+							"$ref": "#/definitions/login"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "loggin please save token"
+					},
+					"404": {
+						"description": "users not found"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			}
+		},
 
-    "paths" : {
-        
-    }
+		"/users/me": {
+			"get": {
+				"summary": "get user own profile",
+				"produces": "application/json",
+				"responses": {
+					"200": {
+						"description": "user profile"
+					},
+					"401": {
+						"description": "user not found"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				},
+
+				"security": [
+					{
+						"Authorization": []
+					}
+				]
+			},
+
+			"patch": {
+				"summary": "update user info",
+				"produces": "application/json",
+				"security": [
+					{
+						"Authorization": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "update",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/userUpdate"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "updated"
+					},
+					"422": {
+						"description": "bad request"
+					},
+					"400": {
+						"description": "can't update user"
+					}
+				}
+			},
+			"delete": {
+				"summary": "remove your accounts",
+				"produces": "application/json",
+				"security": [
+					{
+						"Authorization": []
+					}
+				],
+				"responses": {
+					"205": {
+						"description": "user removed"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			}
+		},
+
+		"/users/logout": {
+			"post": {
+				"summary": "logout user!",
+				"produces": "application/json",
+				"security": [
+					{
+						"Authorization": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "logout"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			}
+		},
+		"/users/forget": {
+			"post": {
+				"summary": "forget user request for send token to email him",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "body",
+						"required": true,
+						"name": "mobile",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"mobile": {
+									"type": "string",
+									"example": "09190000000"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "link was sent in your email"
+					},
+					"404": {
+						"description": "user not found"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			}
+		},
+
+		"/users/reset/{token}" : {
+			"post" : {
+				"summary" : "reset user password",
+				"produces" : "application/json",
+				"parameters":[
+					{
+						"in" : "path",
+						"name" : "token",
+						"required" : true
+					},
+					{
+						"in" : "body",
+						"name" : "password",
+						"required" : true,
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"password" : {
+									"type" : "string",
+									"example" : "resetpass"
+								}
+							}
+						}
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "ok"
+					},
+					"400" : {
+						"description" : "bad request"
+					},
+					"404" : {
+						"description" : "invalid token"
+					}
+				}
+			}
+		}
+	},
+
+	"securityDefinitions": {
+		"Authorization": {
+			"type": "apiKey",
+			"in": "header",
+			"name": "Authorization"
+		}
+	},
+
+	"definitions": {
+		"user": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"example": "John Doe"
+				},
+				"mobile": {
+					"type": "string",
+					"example": "09190000000"
+				},
+				"email": {
+					"type": "string",
+					"example": "john@doe.com"
+				},
+				"password": {
+					"type": "string",
+					"example": "red1377"
+				}
+			}
+		},
+
+		"login": {
+			"type": "object",
+			"properties": {
+				"mobile": {
+					"type": "string",
+					"example": "09190000000"
+				},
+
+				"password": {
+					"type": "string",
+					"example": "red1377"
+				}
+			}
+		},
+		"userUpdate": {
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string",
+					"example": "updated@gmail.com"
+				},
+				"name": {
+					"type": "string",
+					"example": "John Doe Updated"
+				},
+				"password": {
+					"type": "string",
+					"example": "updated"
+				}
+			}
+		}
+	}
 }

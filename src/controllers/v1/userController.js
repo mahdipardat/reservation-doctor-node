@@ -2,6 +2,7 @@ const User = require('../../models/user');
 const gravatar = require('gravatar');
 const sendForgetEmail = require('../../services/sendForgetMail');
 
+
 exports.getUsers = async(req , res , next) => {
 
     const page = req.query.page || 1;
@@ -143,7 +144,6 @@ exports.forget = async (req , res , next) => {
 
 
 exports.reset = async (req , res , next) => {
-
     const token = req.params.token;
     const password = req.body.password;
     try {
@@ -163,4 +163,16 @@ exports.reset = async (req , res , next) => {
         res.status(400).send();
     }
 
+}
+
+exports.logout = async (req , res , next) => {
+    try {
+        
+        await req.user.logout();
+
+        res.send('logout');
+
+    } catch (e) {
+        res.status(500).send();
+    }
 }

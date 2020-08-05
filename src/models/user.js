@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
+
 const userSchema = new Schema(
 	{
 		name: {
@@ -119,6 +120,14 @@ userSchema.methods.generateAuthToken = async function () {
 		throw new Error(e);
 	}
 };
+
+userSchema.methods.logout = async function() {
+	const user = this;
+
+	user.tokens = [];
+
+	await user.save();
+}
 
 const User = mongoose.model("User", userSchema);
 
