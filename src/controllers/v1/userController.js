@@ -1,4 +1,5 @@
 const User = require('../../models/user');
+const gravatar = require('gravatar');
 
 exports.getUsers = async(req , res , next) => {
 
@@ -19,7 +20,9 @@ exports.getUsers = async(req , res , next) => {
               res.status(404).send();
           }
 
-          res.send({ users });
+        
+
+          res.send(users);
 
     } catch (e) {
         res.status(500).send();
@@ -60,13 +63,58 @@ exports.login = async(req , res , next) => {
 }
 
 exports.getUser = async(req , res , next) => {
+    try {
+        const user = req.user;
 
+        if(!user) {
+            res.status(404).send();
+        }
+
+        user.avatar = gravatar.url(user.email)
+
+        res.send( user)
+        
+    } catch (e) {
+        res.status(404).send()
+    }
 }
 
 exports.updateUser = async(req , res , next) => {
 
+    const updates = Object.keys(req.body);
+    const allowsUpdated = ['name' , 'password' , 'email'];
+    const isAllowdToUpdate = updates.every(update => allowsUpdated.includes(update));
+
+    if(!isAllowdToUpdate) {
+        res.status(422).send('bad request');
+    }
+
+    try {
+        
+        updates.forEach(update => {
+            req.user[update] = req.body[update];
+        });
+
+        await req.user.save();
+
+        res.status(201).send(req.user);
+
+    } catch (e) {
+        res.status(400).send();
+    }
+
 }
 
 exports.deleteUser = async(req , res , next) => {
+
+    try {
+        
+        await req.user.remove();
+
+        res.status(205).send(req.user)
+
+    } catch (e) {
+        res.status(500).send();
+    }
 
 }
