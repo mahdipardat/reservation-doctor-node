@@ -18,11 +18,10 @@ exports.getUsers = async(req , res , next) => {
           }).limit(20).skip((page - 1) * 20);
 
           if(!users) {
-              res.status(404).send();
+              return res.status(404).send();
           }
 
-        
-
+    
           res.send(users);
 
     } catch (e) {
@@ -54,7 +53,7 @@ exports.login = async(req , res , next) => {
         const user = await User.findByCredential(req.body.password , req.body.mobile);
         const token = await user.generateAuthToken();
         if(!user) {
-            res.status(404).send('user not found');
+            return res.status(404).send('user not found');
         }
         res.status(200).send({ user , token })
 
@@ -68,7 +67,7 @@ exports.getUser = async(req , res , next) => {
         const user = req.user;
 
         if(!user) {
-            res.status(404).send();
+            return res.status(404).send();
         }
 
         user.avatar = gravatar.url(user.email)
@@ -87,7 +86,7 @@ exports.updateUser = async(req , res , next) => {
     const isAllowdToUpdate = updates.every(update => allowsUpdated.includes(update));
 
     if(!isAllowdToUpdate) {
-        res.status(422).send('bad request');
+        return res.status(422).send('bad request');
     }
 
     try {
@@ -129,15 +128,39 @@ exports.forget = async (req , res , next) => {
         const user = await User.findOne({ mobile });
 
         if(!user) {
-            res.status(404).send();
+            return res.status(404).send();
         }
 
         const info = await sendForgetEmail(user);
-        console.log(info);
-        res.send({ msg : 'token sent!'});
+        
+        res.send({ msg : 'token sent!', info });
 
     } catch (e) {
         res.status(500).send();
+    }
+
+}
+
+
+exports.reset = async (req , res , next) => {
+
+    const token = req.params.token;
+    const password = req.body.password;
+    try {
+        
+        const user = await User.findOne({ forgetToken : token });
+
+        if(!user) {
+            return res.status(404).send();
+        }
+
+        user.password = password;
+        user.forgetToken = undefined;
+        await user.save();
+        res.status(201).send(user);
+
+    } catch (e) {
+        res.status(400).send();
     }
 
 }

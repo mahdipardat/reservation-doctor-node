@@ -5,13 +5,13 @@ const path = require('path');
 
 const sendForgetEmail = async(user) => {
 
-    const token = crypto.randomBytes(8).toString('hex');
+    const token = crypto.randomBytes(16).toString('hex');
 
     user.forgetToken = token;
     
     await user.save();
 
-    const data = await ejs.renderFile(path.resolve('src/mails/forgetPassword.ejs') , { user , token});
+    const data = await ejs.renderFile(path.resolve('src/mails/forgetPassword.ejs') , { user , token , url : process.env.APP_BASEURL});
 
     const info = await mail.sendMail({
         from : '<doctors@gmail.com>',

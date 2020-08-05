@@ -13,6 +13,7 @@ router.post('/login' ,userController.login);
 router.get('/me', isAuth , userController.getUser);
 router.patch('/me', isAuth , userController.updateUser);
 router.delete('/me', isAuth , userController.deleteUser);
-router.post('/forget' , userController.forget)
+router.post('/forget' , userController.forget);
+router.post('/reset/:token' , userController.reset);
 
 module.exports = router;
