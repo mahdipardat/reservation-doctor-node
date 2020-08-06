@@ -282,6 +282,293 @@
 				]
 
 			}
+		},
+
+		"/states" : {
+			"post" : {
+				"summary" : "add state",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in": "body",
+						"name" : "states",
+						"required" : true,
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"title" : {
+									"type" : "string",
+									"example" : "تهران"
+								}
+							}
+						}
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "created!"
+					},
+					"400" : {
+						"description" : "can't created"
+					}
+				},
+				"security" : [{
+					"Authorization" : []
+				}]
+			},
+			"get" : {
+				"summary" : "list states",
+				"produces" : "application/json",
+				"parameters":[
+					{
+						"in" : "query",
+						"name" : "page"
+						
+					},
+					{
+						"in" : "query",
+						"name" : "search"
+						
+					}
+				],
+				"responses" : {
+					"200" : {
+						"description" : "success"
+					},
+					"500" : {
+						"description" : "internal server error"
+					}
+				}
+			}
+		},
+		"/states/{id}" : {
+			"get" : {
+				"summary" : "get state",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "id",
+						"required" : true
+					}
+				],
+				"responses" : {
+					"200" : {
+						"description" : "success"
+					},
+					"404" : {
+						"description" : "not found!"
+					},
+					"500" : {
+						"description" : "internal server error"
+					}
+				}
+			},
+			"patch" : {
+				"summary" : "update state",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" :"id",
+						"required" : true
+					},
+					{
+						"in" : "body",
+						"name" : "title",
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"title" : {
+									"type" : "string",
+									"example" :"اردبیل"
+								}
+							}
+						}
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "updated"
+					},
+					"400" : {
+						"description" : "error"
+					}
+				},
+				"security" : [
+					{
+						"Authorization" : []
+					}
+				]
+			},
+			"delete" : {
+				"summary" : "delete state",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "id",
+						"required" : true
+					}
+				],
+
+				"responses" : {
+					"205" : {
+						"description" : "deleted state"
+					},
+					"500" : {
+						"description" : "internal server error"
+					}
+				},
+				"security" : [
+					{
+						"Authorization" : []
+					}
+				]
+			}
+			
+		},
+		"/cities" : {
+			"get" : {
+				"summary" : "list of cities",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "query",
+						"name" : "page"
+					},
+					{
+						"in" : "query",
+						"name" : "search"
+					}
+				],
+				"responses" : {
+					"200" : {
+						"description" : "success"
+					},
+					"500" : {
+						"description" : "internal server error"
+					}
+				}
+			},
+			"post" : {
+				"summary" : "create city",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "body",
+						"name" : "title",
+						"required" : true,
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"title" : {
+									"type" : "string",
+									"example" : "اسلامشهر"
+								},
+								"state" : {
+									"type" : "string",
+									"example" : "5f2bd09ecdd79c787f83191c"
+								}
+							}
+						}
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "city created"
+					},
+					"400" : {
+						"description" : "can't create"
+					}
+				},
+				"security" : [
+					{
+						"Authorization" : []
+					}
+				]
+			}
+		},
+		"/cities/{id}" : {
+			"get" : {
+				"summary" : "city",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "id",
+						"required" : true
+					}
+				],
+				"responses" : {
+					"200" : {
+						"description" : "success"
+					},
+					"404" : {
+						"description" : "not found!"
+					}
+				}
+			},
+
+			"patch" : {
+				"summary" : "update city",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "id",
+						"required" : true
+					},
+					{
+						"in" : "body",
+						"name" : "updated",
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"title"  : {
+									"type" : "string",
+									"example" : "تهرانسر"
+								},
+								"state" : {
+									"type" : "string",
+									"example" : "5f2bd09ecdd79c787f83191c"
+								}
+							}
+						}
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "updated"
+					}
+				},
+				"security" : [
+					{
+						"Authorization" : []
+					}
+				]
+			},
+			"delete" : {
+				"summary" : "delete city",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "id",
+						"requried" : true
+					}
+				],
+				"responses" : {
+					"205" : {
+						"description" : "deleted city"
+					}
+				},
+				"security" : [
+					{
+						"Authorization" : []
+					}
+				]
+			}
 		}
 	},
 
