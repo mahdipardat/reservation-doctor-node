@@ -212,360 +212,492 @@
 			}
 		},
 
-		"/users/reset/{token}" : {
-			"post" : {
-				"summary" : "reset user password",
-				"produces" : "application/json",
-				"parameters":[
+		"/users/reset/{token}": {
+			"post": {
+				"summary": "reset user password",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "token",
-						"required" : true
+						"in": "path",
+						"name": "token",
+						"required": true
 					},
-					{
-						"in" : "body",
-						"name" : "password",
-						"required" : true,
-						"schema" : {
-							"type" : "object",
-							"properties" : {
-								"password" : {
-									"type" : "string",
-									"example" : "resetpass"
-								}
-							}
-						}
-					}
-				],
-				"responses" : {
-					"201" : {
-						"description" : "ok"
-					},
-					"400" : {
-						"description" : "bad request"
-					},
-					"404" : {
-						"description" : "invalid token"
-					}
-				}
-			}
-		},
-		"/users/add-admin/{userId}" : {
-			"post" : {
-				"summary" : "add user to admin",
-				"description" : "only super admin access to this!",
-				"produces" : "application/json",
-				"parameters" : [
-					{
-						"in" : "path",
-						"name" : "userId",
-						"required" : true
-					}
-				],
-				"responses" : {
-					"201" : {
-						"description" : "success"
-					},
-					"401" : {
-						"description" : "not authorized"
-					},
-					"400" : {
-						"description" : "error"
-					},
-					"404" : {
-						"description" : "user not found"
-					}
-				},
-
-				"security" : [
-					{"Authorization" : []}
-				]
-
-			}
-		},
-
-		"/states" : {
-			"post" : {
-				"summary" : "add state",
-				"produces" : "application/json",
-				"parameters" : [
 					{
 						"in": "body",
-						"name" : "states",
-						"required" : true,
-						"schema" : {
-							"type" : "object",
-							"properties" : {
-								"title" : {
-									"type" : "string",
-									"example" : "تهران"
+						"name": "password",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"password": {
+									"type": "string",
+									"example": "resetpass"
 								}
 							}
 						}
 					}
 				],
-				"responses" : {
-					"201" : {
-						"description" : "created!"
+				"responses": {
+					"201": {
+						"description": "ok"
 					},
-					"400" : {
-						"description" : "can't created"
-					}
-				},
-				"security" : [{
-					"Authorization" : []
-				}]
-			},
-			"get" : {
-				"summary" : "list states",
-				"produces" : "application/json",
-				"parameters":[
-					{
-						"in" : "query",
-						"name" : "page"
-						
+					"400": {
+						"description": "bad request"
 					},
-					{
-						"in" : "query",
-						"name" : "search"
-						
-					}
-				],
-				"responses" : {
-					"200" : {
-						"description" : "success"
-					},
-					"500" : {
-						"description" : "internal server error"
+					"404": {
+						"description": "invalid token"
 					}
 				}
 			}
 		},
-		"/states/{id}" : {
-			"get" : {
-				"summary" : "get state",
-				"produces" : "application/json",
-				"parameters" : [
+		"/users/add-admin/{userId}": {
+			"post": {
+				"summary": "add user to admin",
+				"description": "only super admin access to this!",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "id",
-						"required" : true
+						"in": "path",
+						"name": "userId",
+						"required": true
 					}
 				],
-				"responses" : {
-					"200" : {
-						"description" : "success"
+				"responses": {
+					"201": {
+						"description": "success"
 					},
-					"404" : {
-						"description" : "not found!"
+					"401": {
+						"description": "not authorized"
 					},
-					"500" : {
-						"description" : "internal server error"
+					"400": {
+						"description": "error"
+					},
+					"404": {
+						"description": "user not found"
 					}
-				}
-			},
-			"patch" : {
-				"summary" : "update state",
-				"produces" : "application/json",
-				"parameters" : [
+				},
+
+				"security": [{ "Authorization": [] }]
+			}
+		},
+
+		"/states": {
+			"post": {
+				"summary": "add state",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" :"id",
-						"required" : true
-					},
-					{
-						"in" : "body",
-						"name" : "title",
-						"schema" : {
-							"type" : "object",
-							"properties" : {
-								"title" : {
-									"type" : "string",
-									"example" :"اردبیل"
+						"in": "body",
+						"name": "states",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "تهران"
 								}
 							}
 						}
 					}
 				],
-				"responses" : {
-					"201" : {
-						"description" : "updated"
+				"responses": {
+					"201": {
+						"description": "created!"
 					},
-					"400" : {
-						"description" : "error"
+					"400": {
+						"description": "can't created"
 					}
 				},
-				"security" : [
+				"security": [
 					{
-						"Authorization" : []
+						"Authorization": []
 					}
 				]
 			},
-			"delete" : {
-				"summary" : "delete state",
-				"produces" : "application/json",
-				"parameters" : [
+			"get": {
+				"summary": "list states",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "id",
-						"required" : true
+						"in": "query",
+						"name": "page"
+					},
+					{
+						"in": "query",
+						"name": "search"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "success"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			}
+		},
+		"/states/{id}": {
+			"get": {
+				"summary": "get state",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "success"
+					},
+					"404": {
+						"description": "not found!"
+					},
+					"500": {
+						"description": "internal server error"
+					}
+				}
+			},
+			"patch": {
+				"summary": "update state",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true
+					},
+					{
+						"in": "body",
+						"name": "title",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "اردبیل"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "updated"
+					},
+					"400": {
+						"description": "error"
+					}
+				},
+				"security": [
+					{
+						"Authorization": []
+					}
+				]
+			},
+			"delete": {
+				"summary": "delete state",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true
 					}
 				],
 
-				"responses" : {
-					"205" : {
-						"description" : "deleted state"
+				"responses": {
+					"205": {
+						"description": "deleted state"
 					},
-					"500" : {
-						"description" : "internal server error"
+					"500": {
+						"description": "internal server error"
 					}
 				},
-				"security" : [
+				"security": [
 					{
-						"Authorization" : []
+						"Authorization": []
 					}
 				]
 			}
-			
 		},
-		"/cities" : {
-			"get" : {
-				"summary" : "list of cities",
-				"produces" : "application/json",
-				"parameters" : [
+		"/cities": {
+			"get": {
+				"summary": "list of cities",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "query",
-						"name" : "page"
+						"in": "query",
+						"name": "page"
 					},
 					{
-						"in" : "query",
-						"name" : "search"
+						"in": "query",
+						"name": "search"
 					}
 				],
-				"responses" : {
-					"200" : {
-						"description" : "success"
+				"responses": {
+					"200": {
+						"description": "success"
 					},
-					"500" : {
-						"description" : "internal server error"
+					"500": {
+						"description": "internal server error"
 					}
 				}
 			},
-			"post" : {
-				"summary" : "create city",
-				"produces" : "application/json",
-				"parameters" : [
+			"post": {
+				"summary": "create city",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "body",
-						"name" : "title",
-						"required" : true,
-						"schema" : {
-							"type" : "object",
-							"properties" : {
-								"title" : {
-									"type" : "string",
-									"example" : "اسلامشهر"
+						"in": "body",
+						"name": "title",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "اسلامشهر"
 								},
-								"state" : {
-									"type" : "string",
-									"example" : "5f2bd09ecdd79c787f83191c"
+								"state": {
+									"type": "string",
+									"example": "5f2bd09ecdd79c787f83191c"
 								}
 							}
 						}
 					}
 				],
-				"responses" : {
-					"201" : {
-						"description" : "city created"
+				"responses": {
+					"201": {
+						"description": "city created"
 					},
-					"400" : {
-						"description" : "can't create"
+					"400": {
+						"description": "can't create"
 					}
 				},
-				"security" : [
+				"security": [
 					{
-						"Authorization" : []
+						"Authorization": []
 					}
 				]
 			}
 		},
-		"/cities/{id}" : {
-			"get" : {
-				"summary" : "city",
-				"produces" : "application/json",
-				"parameters" : [
+		"/cities/{id}": {
+			"get": {
+				"summary": "city",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "id",
-						"required" : true
+						"in": "path",
+						"name": "id",
+						"required": true
 					}
 				],
-				"responses" : {
-					"200" : {
-						"description" : "success"
+				"responses": {
+					"200": {
+						"description": "success"
 					},
-					"404" : {
-						"description" : "not found!"
+					"404": {
+						"description": "not found!"
 					}
 				}
 			},
 
-			"patch" : {
-				"summary" : "update city",
-				"produces" : "application/json",
-				"parameters" : [
+			"patch": {
+				"summary": "update city",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "id",
-						"required" : true
+						"in": "path",
+						"name": "id",
+						"required": true
 					},
 					{
-						"in" : "body",
-						"name" : "updated",
-						"schema" : {
-							"type" : "object",
-							"properties" : {
-								"title"  : {
-									"type" : "string",
-									"example" : "تهرانسر"
+						"in": "body",
+						"name": "updated",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "تهرانسر"
 								},
-								"state" : {
-									"type" : "string",
-									"example" : "5f2bd09ecdd79c787f83191c"
+								"state": {
+									"type": "string",
+									"example": "5f2bd09ecdd79c787f83191c"
 								}
 							}
 						}
 					}
 				],
-				"responses" : {
-					"201" : {
-						"description" : "updated"
+				"responses": {
+					"201": {
+						"description": "updated"
 					}
 				},
-				"security" : [
+				"security": [
 					{
-						"Authorization" : []
+						"Authorization": []
 					}
 				]
 			},
-			"delete" : {
-				"summary" : "delete city",
-				"produces" : "application/json",
-				"parameters" : [
+			"delete": {
+				"summary": "delete city",
+				"produces": "application/json",
+				"parameters": [
 					{
-						"in" : "path",
-						"name" : "id",
-						"requried" : true
+						"in": "path",
+						"name": "id",
+						"requried": true
 					}
 				],
-				"responses" : {
-					"205" : {
-						"description" : "deleted city"
+				"responses": {
+					"205": {
+						"description": "deleted city"
 					}
 				},
-				"security" : [
+				"security": [
 					{
-						"Authorization" : []
+						"Authorization": []
+					}
+				]
+			}
+		},
+		"/experts": {
+			"get": {
+				"summary": "all experts",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page"
+					},
+					{
+						"in": "query",
+						"name": "search"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "success"
+					}
+				}
+			},
+			"post": {
+				"summary": "store expert",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "expert",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "زیبایی"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "created!"
+					},
+					"400": {
+						"description": "Failed!"
+					}
+				},
+				"security": [
+					{
+						"Authorization": []
+					}
+				]
+			}
+		},
+		"/experts/{id}": {
+			"get": {
+				"summary": "get expert",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "success"
+					},
+					"404": {
+						"description": "not found!"
+					}
+				}
+			},
+			"patch": {
+				"summary": "update expert",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true
+					},
+					{
+						"in": "body",
+						"name": "update",
+						"required": "true",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string",
+									"example": "عمومی"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "updated"
+					},
+					"404": {
+						"description": "not found!"
+					}
+				},
+				"security": [
+					{
+						"Authorization": []
+					}
+				]
+			},
+			"delete": {
+				"summary": "delete expert",
+				"produces": "application/json",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true
+					}
+				],
+				"responses": {
+					"205": {
+						"description": "deleted expert"
+					},
+					"404": {
+						"description": "not found!"
+					}
+				},
+				"security": [
+					{
+						"Authorization": []
 					}
 				]
 			}

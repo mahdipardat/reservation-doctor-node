@@ -5,9 +5,11 @@ const router = express.Router();
 const userRouter = require('./user');
 const stateRouter = require('./state');
 const cityRouter = require('./city');
+const expertRouter = require('./expert');
 
 router.use('/users' , userRouter);
 router.use('/states' , stateRouter);
 router.use('/cities' , cityRouter);
+router.use('/experts' , expertRouter);
 
 module.exports = router;
