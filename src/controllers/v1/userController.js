@@ -176,3 +176,29 @@ exports.logout = async (req , res , next) => {
         res.status(500).send();
     }
 }
+
+
+exports.addAdmin = async (req , res , next) => {
+
+    const id = req.params.id;
+
+    try {
+        const user = await User.findOne({_id : id});
+
+        if(!user) return res.status(404).send()
+
+        if(user.role === "admin") {
+            user.role = "customer";
+        } else {
+            user.role = "admin";
+        }
+        
+        await user.save();
+
+        res.status(201).send(user)
+
+    } catch (e) {
+        res.status(400).send(e);
+    }
+
+}

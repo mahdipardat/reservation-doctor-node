@@ -249,6 +249,39 @@
 					}
 				}
 			}
+		},
+		"/users/add-admin/{userId}" : {
+			"post" : {
+				"summary" : "add user to admin",
+				"description" : "only super admin access to this!",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "path",
+						"name" : "userId",
+						"required" : true
+					}
+				],
+				"responses" : {
+					"201" : {
+						"description" : "success"
+					},
+					"401" : {
+						"description" : "not authorized"
+					},
+					"400" : {
+						"description" : "error"
+					},
+					"404" : {
+						"description" : "user not found"
+					}
+				},
+
+				"security" : [
+					{"Authorization" : []}
+				]
+
+			}
 		}
 	},
 
