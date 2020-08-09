@@ -1,6 +1,5 @@
 const City = require('../../models/city');
 
-
 exports.getAll = async(req , res , next) => { 
 
     const page = req.query.page || 1;
