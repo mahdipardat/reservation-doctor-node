@@ -12,12 +12,13 @@ exports.getAll = async(req , res , next) => {
                 $regex : search,
                 $options : "i"
             }
-        }).populate('state').limit(20).skip((page - 1) * 20);
+        }).populate('state').limit(20).skip((page - 1) * 20).cache({ key : "city"}).exec();
 
 
         res.send(cities);
 
     } catch (e) {
+        console.log(e)
         res.status(500).send(e);
     }
 
