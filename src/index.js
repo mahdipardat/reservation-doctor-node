@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 
-app.use('statics', express.static('statics'));
+app.use('/statics', express.static('statics'));
 require('./db/mongoose');
 require('./services/cache');
 require('./bootstraps')(app);

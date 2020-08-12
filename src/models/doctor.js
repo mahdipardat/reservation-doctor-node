@@ -97,4 +97,4 @@ doctorSchema.statics.findByCredential = async function (password , mobile) {
 
 const Doctor = mongoose.model('Doctor', doctorSchema);
 
-module.export = Doctor;
+module.exports = Doctor;

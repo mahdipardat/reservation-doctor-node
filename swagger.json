@@ -701,6 +701,77 @@
 					}
 				]
 			}
+		},
+		"/doctors" : {
+			"get" : {
+				"summary" : "list of doctors we have",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "query",
+						"name" : "search"
+					},
+					{
+						"in":"query",
+						"name" :"page"
+					}
+				],
+				"responses" : {
+					"200" : {
+						"description" : "list of doctors"
+					},
+					"500" : {
+						"description" : "internal server error"
+					}
+				}
+			},
+			"post" : {
+				"summary" : "sign up new doctors",
+				"produces" : "application/json",
+				"parameters" : [
+					{
+						"in" : "body",
+						"name" : "doctors",
+						"required" : true,
+						"schema" : {
+							"type" : "object",
+							"properties" : {
+								"firstName" : {
+									"type" : "string",
+									"example" : "علی نادری کیا"
+								},
+								"email" : {
+									"type" : "string",
+									"example" : "kia@test.com"
+								},
+								"password" : {
+									"type" : "string",
+									"example" : "kia123456"
+								},
+								"mobile" : {
+									"type" : "string",
+									"example" : "09121234567"
+								},
+								"nationalCode" : {
+									"type" : "string",
+									"example" : "0021919192"
+								},
+								"licenseCode" : {
+									"type" : "string",
+									"example" : "21919192"
+								}
+
+							}
+						}
+					},
+					{
+						"in" : "formData",
+						"name" : "licenseImage",
+						"required" : true,
+						"type" : "file"
+					}
+				]
+			}
 		}
 	},
 

@@ -8,7 +8,6 @@ exports.getAll = async(req , res , next) => {
     const search = req.query.search || '';
 
     try {
-        
         const states = await State.find({
             title : {
                 $regex : search,

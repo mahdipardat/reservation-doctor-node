@@ -1,5 +1,4 @@
 const Doctor = require('../../models/doctor');
-const path = require('path');
 const fs = require('fs');
 
 exports.getAll = async (req , res , next) => {
@@ -13,11 +12,12 @@ exports.getAll = async (req , res , next) => {
                 $options : 'i'
             }
         }).populate('experts').limit(20).skip((page - 1) * 20);
-
+        
         res.send(doctors);
 
 
     } catch (e) {
+        
         res.status(500).send(e);
     }
 
@@ -52,17 +52,18 @@ exports.me = async (req , res , next) => {
 }
 
 exports.store = async (req , res , next) => {
+    
     try {
-        const doctor = new Doctor({
+        const doctor = await Doctor.create({
             ...req.body,
-            licenseImage : req.file.path
+            licenseImage : process.env.APP_BASEURL + '/' + req.file.path
         });
-        await doctor.save();
+       
         const token = await doctor.generateAuthToken();
         res.send({ doctor , token })
 
     } catch (e) {
-        fs.unlink(req.file.path);
+        fs.unlinkSync(req.file.path);
         res.status(400).send(e)
     }
 }
@@ -102,8 +103,8 @@ exports.update = async (req , res , next) => {
         const doctor = await Doctor.findOne({ _id : id });
 
         if (req.file) {
-            fs.unlink(doctor.licenseImage);
-            doctor['licenseImage'] = req.file.path;
+            fs.unlinkSync(doctor.licenseImage.replace(process.env.APP_BASEURL + '/' , ''));
+            doctor['licenseImage'] = process.env.APP_BASEURL + '/' +req.file.path;
         }
 
         updates.forEach(update => {
@@ -115,6 +116,7 @@ exports.update = async (req , res , next) => {
         res.status(201).send(doctor);
 
     } catch (e) {
+        fs.unlinkSync(req.file.path)
         res.status(400).send(e);
     }
 }
@@ -127,7 +129,7 @@ exports.delete = async (req , res , next) => {
             return res.status(404).send('not found!');
         }
 
-        fs.unlink(doctor.licenseImage);
+        fs.unlinkSync(doctor.licenseImage.replace(process.env.APP_BASEURL + '/' , ''));
         await doctor.remove();
 
         res.status(205).send(doctor);

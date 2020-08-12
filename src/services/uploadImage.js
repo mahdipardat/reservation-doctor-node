@@ -5,14 +5,14 @@ const generatePath = () => {
    const year = new Date().getFullYear();
    const month = new Date().getMonth();
    const day = new Date().getDay();
-   return `/statics/uploads/${year}/${month}/${day}`;
+   return `statics/uploads/${year}/${month}/${day}`;
 }
 
 const fileStorage = multer.diskStorage({
    destination : function (req , file , cb) {
       const filePath = generatePath();
       const made = mkdirp.sync(filePath);
-      cb(null , made);
+      cb(null , filePath);
 
    } ,
 
